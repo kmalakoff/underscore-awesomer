@@ -1,0 +1,12 @@
+{
+  "name"          : "underscore-awesomer",
+  "description"   : "Awesome Extensions to Underscore.js",
+  "homepage"      : "https://github.com/kmalakoff/underscore-awesomer",
+  "keywords"      : ["util", "functional", "server", "client", "browser"],
+  "author"        : "Kevin Malakoff <xmann.intl@gmail.com>",
+  "contributors"  : [],
+  "dependencies"  : ["underscore.js"],
+  "repository"    : {"type": "git", "url": "git://github.com/kmalakoff/underscore-awesomer.git"},
+  "main"          : "underscore-awesomer.js",
+  "version"       : "1.0.0"
+}
