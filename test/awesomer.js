@@ -1,7 +1,7 @@
 $(document).ready(function() {
   module("Awesome Underscore extensions");
 
-  // Collection Functions
+  // Modifications to Underscore
   // --------------------
 
   test('collections: pluck', function() {
@@ -12,6 +12,64 @@ $(document).ready(function() {
     equals(_.pluck(people, 'name', true).join(', '), 'moe, curly', 'pulls names out of objects');
     ok(_.isEqual(people, [{age : 30}, {age : 50}]), 'removes the plucked values from the original');
   });
+
+  test("objects: isEqual for classes", function() {
+    LocalizedString = (function() {
+      function LocalizedString(id) { this.id = id; this.string = (this.id===10)? 'Bonjour': ''; }
+      LocalizedString.prototype.isEqual = function(that) {
+        if (_.isString(that)) return this.string == that;
+        else if (that instanceof LocalizedString) return this.id == that.id;
+        return false;
+      };
+      return LocalizedString;
+    })();
+
+    var localized_string1 = new LocalizedString(10), localized_string2 = new LocalizedString(10), localized_string3 = new LocalizedString(11);
+
+    ok(_.isEqual(localized_string1, localized_string2), 'comparing same typed instances with same ids');
+    ok(!_.isEqual(localized_string1, localized_string3), 'comparing same typed instances with different ids');
+    ok(!_.isEqual(localized_string2, localized_string3), 'comparing same typed instances with different ids');
+    ok(_.isEqual(localized_string1, 'Bonjour'), 'comparing different typed instances with same values');
+    ok(_.isEqual('Bonjour', localized_string1), 'comparing different typed instances with same values');
+    ok(!_.isEqual('Bonjour', localized_string3), 'comparing two localized strings with different ids');
+    ok(!_.isEqual(localized_string1, 'Au revoir'), 'comparing different typed instances with different values');
+    ok(!_.isEqual('Au revoir', localized_string1), 'comparing different typed instances with different values');
+
+    Date.prototype.toJSON = function() {
+      return {
+        _type:'Date',
+        year:this.getUTCFullYear(),
+        month:this.getUTCMonth(),
+        day:this.getUTCDate(),
+        hours:this.getUTCHours(),
+        minutes:this.getUTCMinutes(),
+        seconds:this.getUTCSeconds()
+      };
+    };
+    Date.prototype.isEqual = function(that) {
+      var this_date_components = this.toJSON();
+      var that_date_components = (that instanceof Date) ? that.toJSON() : that;
+      delete this_date_components['_type']; delete that_date_components['_type']
+      return _.isEqual(this_date_components, that_date_components);
+    };
+
+    var date = new Date();
+    var date_json = {
+      _type:'Date',
+      year:date.getUTCFullYear(),
+      month:date.getUTCMonth(),
+      day:date.getUTCDate(),
+      hours:date.getUTCHours(),
+      minutes:date.getUTCMinutes(),
+      seconds:date.getUTCSeconds()
+    };
+
+    ok(_.isEqual(date_json, date), 'serialized date matches date');
+    ok(_.isEqual(date, date_json), 'date matches serialized date');
+  });
+
+  // Collection Functions
+  // --------------------
 
   test('collections: getValue', function() {
     var person = {name : 'moe', age : 30}, result;
@@ -310,27 +368,6 @@ $(document).ready(function() {
 
     clone.lucky.push(102);
     ok(_.last(moe.lucky)!=102, 'changes to deep attributes are not shared with the original');
-  });
-
-  test("objects: isEqual for classes", function() {
-    LocalizedString = (function() {
-      function LocalizedString(id) { this.id = id; this.string = 'Bonjour'; }
-      LocalizedString.prototype.isEqual = function(that) {
-        if (_.isString(that)) return this.string == that;
-        else if (that instanceof LocalizedString) return this.id == that.id;
-        return false;
-      };
-      return LocalizedString;
-    })();
-
-    var localized_string1 = new LocalizedString(10), localized_string2 = new LocalizedString(10), localized_string3 = new LocalizedString(11);
-
-    ok(_.isEqual(localized_string1, localized_string2), 'comparing same typed instances with same values');
-    ok(!_.isEqual(localized_string1, localized_string3), 'comparing same typed instances with different values');
-    ok(_.isEqual(localized_string1, 'Bonjour'), 'comparing different typed instances with same values');
-    ok(_.isEqual('Bonjour', localized_string1), 'comparing different typed instances with same values');
-    ok(!_.isEqual(localized_string1, 'Au revoir'), 'comparing different typed instances with different values');
-    ok(!_.isEqual('Au revoir', localized_string1), 'comparing different typed instances with different values');
   });
 
   test("objects: functionExists", function() {
