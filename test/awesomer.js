@@ -297,6 +297,7 @@ $(document).ready(function() {
   test("objects: keypathExists", function() {
     var object = {follow: {me: {down: {the: 'road'} } } };
 
+    ok(_.hasKeypath(object, 'follow'), 'follow exists');
     ok(_.hasKeypath(object, 'follow.me'), 'follow.me exists');
     ok(_.hasKeypath(object, ['follow','me']), 'follow.me as array exists');
     ok(_.hasKeypath(object, 'follow.me.down.the'), 'follow.me.down.the exists');

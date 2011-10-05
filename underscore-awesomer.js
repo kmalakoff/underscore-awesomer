@@ -312,7 +312,7 @@
   // Finds the object that has or 'owns' the value if a dot-delimited or array of keys path to a value exists.
   _.keypathValueOwner = function(object, keypath) {
     var keypath_components = _.isString(keypath) ? keypath.split('.') : keypath;
-    if (keypath_components.length===1) return ((object instanceof Object) && (key in object)) ? object : void 0; // optimization
+    if (keypath_components.length===1) return ((object instanceof Object) && (keypath in object)) ? object : void 0; // optimization
     var key, current_object = object;
     for (var i = 0, l = keypath_components.length; i < l;) {
       key = keypath_components[i];
