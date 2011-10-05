@@ -43,6 +43,7 @@
     if (a === b) return a !== 0 || 1 / a == 1 / b;
     // A strict comparison is necessary because `null == undefined`.
     if (a == null) return a === b;
+    if (b == null) return a === b;
     // Either one is undefined
     if ((a === void 0) || (b === void 0)) return false;
     // Unwrap any wrapped objects.
