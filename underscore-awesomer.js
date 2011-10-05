@@ -87,10 +87,10 @@
   // If the matcher is undefined, it removes and returns all values.
   // If the collection is an object and the matcher is a key, it removes and return the value for that key (unless the 'is\_value' option is provided).
   // Otherwise, it removes and return the value if it finds it.
-  // <br />**Options:**<br />
-  // * `callback` - if you provide a callback, it calls it with the removed value after the value is removed from the collection. Note: if the options are a function, it is set as the callback.<br />
-  // * `values` - used to disambigate between a key or value when removing from a collection that is an object.<br />
-  // * `first_only` - if you provide a first_only flag, it will stop looking for an value when it finds one that matches.<br />
+  // <br/>**Options:**<br/>
+  // * `callback` - if you provide a callback, it calls it with the removed value after the value is removed from the collection. Note: if the options are a function, it is set as the callback.<br/>
+  // * `values` - used to disambigate between a key or value when removing from a collection that is an object.<br/>
+  // * `first_only` - if you provide a first_only flag, it will stop looking for an value when it finds one that matches.<br/>
   // * `preclear` - if you provide a preclear flag, it will clone the passed object, remove all the values, and then remove from the cloned object.
   _.remove = function(obj, matcher, options) {
     if (_.isEmpty(obj)) return (!matcher || _.isFunction(matcher)) ? [] : undefined;
@@ -255,8 +255,9 @@
 
   // Finds the object that has or 'owns' the value if a dot-delimited or array of keys path to a value exists.
   _.keypathValueOwner = function(object, keypath) {
-    var key, keypath_components = _.isString(keypath) ? keypath.split('.') : keypath;
-    var current_object = object;
+    var keypath_components = _.isString(keypath) ? keypath.split('.') : keypath;
+    if (keypath_components.length===1) return ((object instanceof Object) && (key in object)) ? object : undefined; // optimization
+    var key, current_object = object;
     for (var i = 0, l = keypath_components.length; i < l;) {
       key = keypath_components[i];
       if (!(key in current_object)) break;
@@ -294,7 +295,8 @@
     return clone;
   };
 
-  // Is a given value a constructor?
+  // Is a given value a constructor?<br/>
+  // **Note: this is not guaranteed to work because not all constructors have a name property.**
   _.isConstructor = function(obj) {
     return (_.isFunction(obj) && obj.name);
   };
@@ -314,8 +316,8 @@
   };
 
   // Determines whether a conversion is possible checking typeof, instanceof, is{SomeType}(), to{SomeType}() using a string, keypath or constructor..
-  // Convention for is{SomeType}(), to{SomeType}() with namespaced classes is to remove the namespace (like Javascript does).
-  // **Note: if you pass a constructor, the constructor name may not exist on the function so use a string if you are relying on is{SomeType}(), to{SomeType}().**
+  // Convention for is{SomeType}(), to{SomeType}() with namespaced classes is to remove the namespace (like Javascript does).<br/>
+  // **Note: if you pass a constructor, the name property may not exist so use a string if you are relying on is{SomeType}(), to{SomeType}().**
   _.CONVERT_NONE = 0;
   _.CONVERT_IS_TYPE = 1;
   _.CONVERT_TO_METHOD = 2;
@@ -388,9 +390,10 @@
     return super_function ? super_function.apply(object, args) : undefined;
   };
 
-  // Returns the class of an object, if it exists.
+  // Returns the class of an object, if it exists.<br/>
+  // **Note: this is not guaranteed to work because not all constructors have a name property.**
   _.classOf = function(obj) {
-    return (obj != null && (typeof(obj)==='object') && Object.getPrototypeOf(obj).constructor.name) || void 0;
+    return (!!obj && (typeof(obj)==='object') && Object.getPrototypeOf(obj).constructor.name) || void 0;
   };
 
   // Copy selected properties from the source to the destination.
@@ -442,8 +445,8 @@
   };
 
   // Deduces the type of ownership of an item and if available, it retains it (reference counted) or clones it.
-  // <br />**Options:**<br />
-  // * `properties` - used to disambigate between owning an object and owning _.each property.<br />
+  // <br/>**Options:**<br/>
+  // * `properties` - used to disambigate between owning an object and owning _.each property.<br/>
   // * `share_collection` - used to disambigate between owning a collection's items (share) and cloning a collection (don't share).
   // * `prefer_clone` - used to disambigate when both retain and clone exist. By default retain is prefered (eg. sharing for lower memory footprint).
   _.own = function(obj, options) {
@@ -466,8 +469,8 @@
   };
 
   // Deduces the type of ownership of an item and if available, it releases it (reference counted) or destroys it.
-  // <br />**Options:**<br />
-  // * `properties` - used to disambigate between owning an object and owning _.each property.<br />
+  // <br/>**Options:**<br/>
+  // * `properties` - used to disambigate between owning an object and owning _.each property.<br/>
   // * `clear_values` - used to disambigate between clearing disowned items and removing them (by default, they are removed).
   _.disown = function(obj, options) {
     if (!obj || (typeof(obj)!='object')) return obj;
@@ -497,7 +500,7 @@
 
   // Convert an array of objects or an object to JSON using the convention that if an
   // object has a toJSON function, it will use it rather than the raw object.
-  // <br />**Options:**<br />
+  // <br/>**Options:**<br/>
   //* `properties` - used to disambigate between owning a collection's items and cloning a collection.
   //* `included` - can provide an array to include values or keys.
   //* `excluded` - can provide an array to exclude values or keys.
@@ -557,8 +560,8 @@
   // Deserialized an array of JSON objects or _.each object individually using the following conventions:
   // 1) if JSON has a recognized type identifier ('\_type' as default), it will try to create an instance.
   // 2) if the class refered to by the type identifier has a parseJSON function, it will try to create an instance.
-  // <br />**Options:**<br />
-  //* `type_field` - the default is '\_type' but you can choose any field name to trigger the search for a parseJSON function.<br />
+  // <br/>**Options:**<br/>
+  //* `type_field` - the default is '\_type' but you can choose any field name to trigger the search for a parseJSON function.<br/>
   //* `properties` - used to disambigate between owning a collection's items and cloning a collection.
   _.parseJSON = function(obj, options) {
     var obj_type = typeof(obj);
