@@ -487,7 +487,7 @@ $(document).ready(function() {
     equal(_.classOf(subclass), 'Subclass', 'it is a Subclass');
     equal(_.classOf(function(){}), 'Function', 'function is a Function class');
     equal(_.classOf({}), 'Object', 'it is an object');
-    equal(_.classOf(12), void 0, 'number not a class');
+    equal(_.classOf(12), 'Number', '12 is a Number');
     equal(_.classOf(Subclass), 'Function', 'constructor is a Function class');
   });
 

@@ -450,7 +450,7 @@
   // Returns the class of an object, if it exists.<br/>
   // **Note: this is not guaranteed to work because not all constructors have a name property.**
   _.classOf = function(obj) {
-    return (obj!=null && (obj instanceof Object) && Object.getPrototypeOf(obj).constructor.name) || void 0;
+    return (obj!=null && Object.getPrototypeOf(Object(obj)).constructor.name) || void 0;
   };
 
   // Copy selected properties from the source to the destination.
