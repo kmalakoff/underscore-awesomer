@@ -447,11 +447,10 @@ $(document).ready(function() {
     })();
     var subclass = new Subclass();
     equal(_.classOf(subclass), 'Subclass', 'it is a Subclass');
-
-    equal(_.classOf(function(){}), void 0, 'function not a class');
+    equal(_.classOf(function(){}), 'Function', 'function is a Function class');
     equal(_.classOf({}), 'Object', 'it is an object');
-    equal(_.classOf(0), void 0, 'number not a class');
-    equal(_.classOf(Subclass), void 0, 'constructor not a class');
+    equal(_.classOf(12), void 0, 'number not a class');
+    equal(_.classOf(Subclass), 'Function', 'constructor is a Function class');
   });
 
   test("objects: isConstructor", function() {
