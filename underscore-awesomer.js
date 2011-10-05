@@ -42,7 +42,7 @@
     if (a === b) return true;
     // One is falsy and the other truthy.
     if ((!a && b) || (a && !b)) return false;
-    // Either one is undefined
+    // Either one is void 0
     if ((a === void 0) || (b === void 0)) return false;
     // Unwrap any wrapped objects.
     if (a._chain) a = a._wrapped;
@@ -84,7 +84,7 @@
   // Removes an value from a collection (array or object).
   // If the matcher is a function, it removes and returns all values that match.
   // If the matcher is an array, it removes and returns all values that match.
-  // If the matcher is undefined, it removes and returns all values.
+  // If the matcher is void 0, it removes and returns all values.
   // If the collection is an object and the matcher is a key, it removes and return the value for that key (unless the 'is\_value' option is provided).
   // Otherwise, it removes and return the value if it finds it.
   // <br/>**Options:**<br/>
@@ -93,7 +93,7 @@
   // * `first_only` - if you provide a first_only flag, it will stop looking for an value when it finds one that matches.<br/>
   // * `preclear` - if you provide a preclear flag, it will clone the passed object, remove all the values, and then remove from the cloned object.
   _.remove = function(obj, matcher, options) {
-    if (_.isEmpty(obj)) return (!matcher || _.isFunction(matcher)) ? [] : undefined;
+    if (_.isEmpty(obj)) return (!matcher || _.isFunction(matcher)) ? [] : void 0;
     options || (options = {});
     if (_.isFunction(options)) options = {callback:options};
 
@@ -112,7 +112,7 @@
       // Array: remove and return all values (returns: array of values)
       if (_.isUndefined(matcher)) { removed = _.keys(obj); }
 
-      // Array: remove and return all values passing matcher function test (returns: array of values) or if first_only option, only the first one (returns: value or undefined)
+      // Array: remove and return all values passing matcher function test (returns: array of values) or if first_only option, only the first one (returns: value or void 0)
       else if (_.isFunction(matcher)) {
         if (options.first_only) { single_value=true; _.find(obj, function(value, index) { if (matcher(value)) { removed.push(index); return true; } return false; }); }
         else { _.each(obj, function(value, index) { if (matcher(value)) { removed.push(index); } } ); }
@@ -134,7 +134,7 @@
           }
         }
       }
-      // Array: remove all matching values (returns: array of values) or if first_only option, only the first one (returns: value or undefined).
+      // Array: remove all matching values (returns: array of values) or if first_only option, only the first one (returns: value or void 0).
       else {
         if (options.first_only) { single_value=true; i = _.indexOf(obj, matcher); if (i>=0) removed.push(i); }
         // Array: remove all matching values (array return type).
@@ -154,7 +154,7 @@
           if (options.callback) { while(value_count>0) { options.callback(value); value_count--; } }
           return value;
         }
-        else return undefined;
+        else return void 0;
       }
       else {
         if (removed.length) {
@@ -199,7 +199,7 @@
           }
         }
       }
-      // Object: remove value matching a key (value or undefined return type)
+      // Object: remove value matching a key (value or void 0 return type)
       else if (_.isString(matcher) && !options.values) {
         single_value = true; ordered_keys = [];
         if (obj.hasOwnProperty(matcher)) { ordered_keys.push(matcher); removed.push(matcher); }
@@ -220,7 +220,7 @@
           if (options.callback) { _.each(result, function(value, index) { options.callback(value, ordered_keys[index]); } ); }
           return single_value ? result[0] : result;
         }
-        else return single_value ? undefined : [];
+        else return single_value ? void 0 : [];
       }
       else {
         if (removed.length) {
@@ -256,7 +256,7 @@
   // Finds the object that has or 'owns' the value if a dot-delimited or array of keys path to a value exists.
   _.keypathValueOwner = function(object, keypath) {
     var keypath_components = _.isString(keypath) ? keypath.split('.') : keypath;
-    if (keypath_components.length===1) return ((object instanceof Object) && (key in object)) ? object : undefined; // optimization
+    if (keypath_components.length===1) return ((object instanceof Object) && (key in object)) ? object : void 0; // optimization
     var key, current_object = object;
     for (var i = 0, l = keypath_components.length; i < l;) {
       key = keypath_components[i];
@@ -265,15 +265,15 @@
       current_object = current_object[key];
       if (!current_object || !(current_object instanceof Object)) break;
     }
-    return undefined;
+    return void 0;
   };
 
-  // Gets (if value parameter undefined) or sets a value if a dot-delimited or array of keys path exists.
+  // Gets (if value parameter void 0) or sets a value if a dot-delimited or array of keys path exists.
   _.keypath = function(object, keypath, value) {
     var keypath_components = _.isString(keypath) ? keypath.split('.') : keypath;
     var value_owner = _.keypathValueOwner(object, keypath_components);
     if (_.isUndefined(value)) {
-      if (!value_owner) return undefined;
+      if (!value_owner) return void 0;
       return value_owner[keypath_components[keypath_components.length-1]];
     }
     else {
@@ -303,16 +303,16 @@
 
   // Returns the class constructor (function return type) using a string, keypath or constructor.
   _.resolveConstructor = function(key) {
-    var keypath_components = _.isArray(key) ? key : (_.isString(key) ? key.split('.') : undefined);
+    var keypath_components = _.isArray(key) ? key : (_.isString(key) ? key.split('.') : void 0);
 
     if (keypath_components) {
       var constructor = (keypath_components.length===1) ? root[keypath_components[0]] : _.keypath(root, keypath_components);
-      return (constructor && _.isConstructor(constructor)) ? constructor : undefined;
+      return (constructor && _.isConstructor(constructor)) ? constructor : void 0;
     }
     else if (_.isFunction(key) && _.isConstructor(key)) {
       return key;
     }
-    return undefined;
+    return void 0;
   };
 
   // Determines whether a conversion is possible checking typeof, instanceof, is{SomeType}(), to{SomeType}() using a string, keypath or constructor..
@@ -322,10 +322,10 @@
   _.CONVERT_IS_TYPE = 1;
   _.CONVERT_TO_METHOD = 2;
   _.conversionPath = function(obj, key) {
-    var keypath_components = _.isArray(key) ? key : (_.isString(key) ? key.split('.') : undefined);
+    var keypath_components = _.isArray(key) ? key : (_.isString(key) ? key.split('.') : void 0);
 
     // Built-in type
-    var obj_type = typeof(obj), check_name = keypath_components ? keypath_components[keypath_components.length-1] : undefined;
+    var obj_type = typeof(obj), check_name = keypath_components ? keypath_components[keypath_components.length-1] : void 0;
     if (keypath_components && (obj_type === check_name)) return _.CONVERT_IS_TYPE;
 
     // Resolved a constructor and object is an instance of it.
@@ -347,7 +347,7 @@
 
   // Converts from one time to another using a string, keypath or constructor if it can find a conversion path.
   _.toType = function(obj, key) {
-    var keypath_components = _.isArray(key) ? key : (_.isString(key) ? key.split('.') : undefined);
+    var keypath_components = _.isArray(key) ? key : (_.isString(key) ? key.split('.') : void 0);
 
     switch (_.conversionPath(obj, keypath_components ? keypath_components : key)) {
       /*_.CONVERT_IS_TYPE*/   case 1: return obj;
@@ -357,10 +357,10 @@
         }
         else {
           var constructor = _.resolveConstructor(key);
-          return (constructor && constructor.name) ? obj['to'+constructor.name]() : undefined;
+          return (constructor && constructor.name) ? obj['to'+constructor.name]() : void 0;
         }
     }
-    return undefined;
+    return void 0;
   };
 
   // Checks if a function exists on an object.
@@ -370,13 +370,13 @@
 
   // Call a function if it exists on an object.
   _.callIfExists = function(object, function_name) {
-    return _.functionExists(object, function_name) ? object[function_name].apply(object, Array.prototype.slice.call(arguments, 2)) : undefined;
+    return _.functionExists(object, function_name) ? object[function_name].apply(object, Array.prototype.slice.call(arguments, 2)) : void 0;
   };
 
   // Get a specific super class function if it exists. Can be useful when dynamically updating a hierarchy.
   _.getSuperFunction = function(object, function_name) {
     var value_owner = _.keypathValueOwner(object, ['constructor','__super__',function_name]);
-    return (value_owner && _.isFunction(value_owner[function_name])) ? value_owner[function_name] : undefined;
+    return (value_owner && _.isFunction(value_owner[function_name])) ? value_owner[function_name] : void 0;
   };
 
   // Call a specific super class function with trailing arguments if it exists.
@@ -387,7 +387,7 @@
   // Call a specific super class function with an arguments list if it exists.
   _.superApply = function(object, function_name, args) {
     var super_function = _.getSuperFunction(object, function_name);
-    return super_function ? super_function.apply(object, args) : undefined;
+    return super_function ? super_function.apply(object, args) : void 0;
   };
 
   // Returns the class of an object, if it exists.<br/>
