@@ -42,8 +42,7 @@
     // See the Harmony `egal` proposal: http://wiki.ecmascript.org/doku.php?id=harmony:egal.
     if (a === b) return a !== 0 || 1 / a == 1 / b;
     // A strict comparison is necessary because `null == undefined`.
-    if (a == null) return a === b;
-    if (b == null) return a === b;
+    if ((a == null) || (b == null)) return a === b;
     // Either one is undefined
     if ((a === void 0) || (b === void 0)) return false;
     // Unwrap any wrapped objects.
@@ -476,6 +475,31 @@
       var value = obj[key]; delete obj[key]; return value;
     }
     else return missing_value;
+  };
+
+  // Sort the object's values by a criterion produced by an iterator.
+  _.sortBy = function(obj, iterator, context) {
+    return _.pluck(_.map(obj, function(value, index, list) {
+      return {
+        value : value,
+        criteria : iterator.call(context, value, index, list)
+      };
+    }).sort(function(left, right) {
+      var a = left.criteria, b = right.criteria;
+      return _.compare(a,b);
+    }), 'value');
+  };
+
+  // Use a comparator function to figure out at what index an object should
+  // be inserted so as to maintain order. Uses binary search.
+  _.sortedIndex = function(array, obj, iterator) {
+    iterator || (iterator = _.identity);
+    var low = 0, high = array.length;
+    while (low < high) {
+      var mid = (low + high) >> 1;
+      _.compare(iterator(array[mid]), iterator(obj))==_.COMPARE_ASCENDING ? low = mid + 1 : high = mid;
+    }
+    return low;
   };
 
   // Maps simple comparison operators (< or ===) or custom comparison functions

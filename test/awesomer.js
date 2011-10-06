@@ -80,6 +80,61 @@ $(document).ready(function() {
     equals(result, 'curly', 'gets the default value when it does not exist');
   });
 
+  Person = (function() {
+    function Person(name,age) {
+      this.name=name; this.age=age;
+    }
+    Person.prototype.compare = function(that) {
+      var result = _.compare(this.age, that.age);
+      if (result!=_.COMPARE_EQUAL) return result;
+      return _.compare(this.name, that.name, 'localeCompare');
+    };
+    Person.prototype.compareByName = function(that) {
+      var result = _.compare(this.name, that.name, 'localeCompare')
+      if (result!=_.COMPARE_EQUAL) return result;
+      return _.compare(this.age, that.age);
+    };
+    return Person;
+  })();
+
+  test('collections: sortBy', function() {
+    var people = [{name : 'curly', age : 50}, {name : 'moe', age : 30}];
+    people = _.sortBy(people, function(person){ return person.age; });
+    equals(_.pluck(people, 'name').join(', '), 'moe, curly', 'stooges sorted by age');
+
+    people.push({name : 'larry', age : 30});
+    people = _.sortBy(people, function(obj) {
+      return new Person(obj.name, obj.age);
+    });
+    equals(_.pluck(people, 'name').join(', '), 'larry, moe, curly', 'stooges sorted by age then name');
+  });
+
+  test('collections: sortedIndex', function() {
+    var numbers = [10, 20, 30, 40, 50], num = 35;
+    var index = _.sortedIndex(numbers, num);
+    equals(index, 3, '35 should be inserted at index 3');
+  });
+
+  test('collections: compare', function() {
+    var people = [new Person('curly',50), new Person('moe',30), new Person('larry', 30)];
+    equals(_.compare(people[0].name, people[0].name), _.COMPARE_EQUAL, 'curly is curly');
+    equals(_.compare(people[0].name, people[1].name), _.COMPARE_ASCENDING, 'curly is before moe');
+    equals(_.compare(people[1].name, people[0].name), _.COMPARE_DESCENDING, 'moe is after curly');
+
+    equals(_.compare(people[0].age, people[0].age), _.COMPARE_EQUAL, 'curly is curly');
+    equals(_.compare(people[0].age, people[1].age), _.COMPARE_DESCENDING, 'curly is after moe');
+    equals(_.compare(people[1].age, people[0].age), _.COMPARE_ASCENDING, 'moe is before curly');
+
+    equals(_.compare(people[0], people[0]), _.COMPARE_EQUAL, 'curly as old as curly');
+    equals(_.compare(people[0], people[1]), _.COMPARE_DESCENDING, 'curly is older than moe');
+    equals(_.compare(people[1], people[0]), _.COMPARE_ASCENDING, 'moe is younger than curly');
+    equals(_.compare(people[1], people[2]), _.COMPARE_DESCENDING, "moe is the same age as larry, but larry's name is before moe");
+
+    equals(_.compare(people[0], people[0], 'compareByName'), _.COMPARE_EQUAL, 'curly is curly');
+    equals(_.compare(people[0], people[1], 'compareByName'), _.COMPARE_ASCENDING, 'curly before moe');
+    equals(_.compare(people[1], people[2], 'compareByName'), _.COMPARE_DESCENDING, 'moe is after larry');
+  });
+
   test('collections: copyProperties', function() {
     var person1;
     var person2;
