@@ -43,14 +43,12 @@
     if (a === b) return a !== 0 || 1 / a == 1 / b;
     // A strict comparison is necessary because `null == undefined`.
     if ((a == null) || (b == null)) return a === b;
-    // Either one is undefined
-    if ((a === void 0) || (b === void 0)) return false;
     // Unwrap any wrapped objects.
     if (a._chain) a = a._wrapped;
     if (b._chain) b = b._wrapped;
-    // One of them implements an isEqual()
-    if (a.isEqual) return a.isEqual(b);
-    if (b.isEqual) return b.isEqual(a);
+    // Invoke a custom `isEqual` method if one is provided.
+    if (_.isFunction(a.isEqual)) return a.isEqual(b);
+    if (_.isFunction(b.isEqual)) return b.isEqual(a);
     // Compare object types.
     var typeA = typeof a;
     if (typeA != typeof b) return false;
@@ -82,8 +80,6 @@
     }
     // Ensure that both values are objects.
     if (typeA != 'object') return false;
-    // Invoke a custom `isEqual` method if one is provided.
-    if (_.isFunction(a.isEqual)) return a.isEqual(b);
     // Assume equality for cyclic structures. The algorithm for detecting cyclic structures is
     // adapted from ES 5.1 section 15.12.3, abstract operation `JO`.
     var length = stack.length;
@@ -96,14 +92,19 @@
     stack.push(a);
     var size = 0, result = true;
     if (a.length === +a.length || b.length === +b.length) {
-      // Compare object lengths to determine if a deep comparison is necessary.
-      size = a.length;
-      result = size == b.length;
+      // Patch until solution is agreed: https://github.com/documentcloud/underscore/issues/329
+      // Reduces false positives by forcing the objects to be the same type instead of strict array-like checks
+      result = ((a instanceof b.constructor) || (b instanceof a.constructor));
       if (result) {
-        // Deep compare array-like object contents, ignoring non-numeric properties.
-        while (size--) {
-          // Ensure commutative equality for sparse arrays.
-          if (!(result = size in a == size in b && eq(a[size], b[size], stack))) break;
+        // Compare object lengths to determine if a deep comparison is necessary.
+        size = a.length;
+        result = size == b.length;
+        if (result) {
+          // Deep compare array-like object contents, ignoring non-numeric properties.
+          while (size--) {
+            // Ensure commutative equality for sparse arrays.
+            if (!(result = size in a == size in b && eq(a[size], b[size], stack))) break;
+          }
         }
       }
     } else {
@@ -644,6 +645,11 @@
   // <br/>**Options:**<br/>
   //* `type_field` - the default is '\_type' but you can choose any field name to trigger the search for a parseJSON function.<br/>
   //* `properties` - used to disambigate between owning a collection's items and cloning a collection.
+  // <br/>**Global settings:**<br/>
+  //* `_.PARSE_JSON_TYPE_FIELD` - the field key in the serialized JSON that is used for constructor lookup.<br/>
+  //* `_.PARSE_JSON_CONSTRUCTOR_ROOT` - the root that is used to find the constructor. Useful for reducing global namespace pollution<br/>
+  _.PARSE_JSON_TYPE_FIELD = '_type';
+  _.PARSE_JSON_CONSTRUCTOR_ROOT = null;
   _.parseJSON = function(obj, options) {
     var obj_type = typeof(obj);
 
@@ -672,13 +678,23 @@
     }
 
     // No deseralization available
-    var type_field = (options && options.type_field) ? options.type_field : '_type';    // Convention
+    var type_field = (options && options.type_field) ? options.type_field : _.PARSE_JSON_TYPE_FIELD;
     if (!(obj instanceof Object) || !obj.hasOwnProperty(type_field)) return obj;
 
     // Find and use the parseJSON function
-    var type = obj[type_field], parseJSON_owner = _.keypathValueOwner(root, type+'.parseJSON');
-    if (!parseJSON_owner) throw new TypeError("Unable to find a parseJSON function for type: " + type);
-    return parseJSON_owner.parseJSON(obj);
+    var type = obj[type_field];
+
+    // Try root.type Global namespace
+    parseJSON_owner = _.keypathValueOwner(root, type+'.parseJSON');
+    if (parseJSON_owner) return parseJSON_owner.parseJSON(obj);
+
+    // Try custom namespace if provided
+    if (_.PARSE_JSON_CONSTRUCTOR_ROOT) {
+      parseJSON_owner = _.keypathValueOwner(_.PARSE_JSON_CONSTRUCTOR_ROOT, type+'.parseJSON');     // try root.Constructors.type
+      if (parseJSON_owner) return parseJSON_owner.parseJSON(obj);
+    }
+
+    throw new TypeError("Unable to find a parseJSON function for type: " + type);
   };
 
   // Add all of the Underscore functions to the previous underscore object.
@@ -688,6 +704,7 @@
     // Modifications to Underscore
     // --------------------
     pluck: _.pluck,
+    isEqual: _.isEqual,
 
     // Collection Functions
     // ----------------
