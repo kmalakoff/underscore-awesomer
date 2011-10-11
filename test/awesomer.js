@@ -1087,8 +1087,7 @@ $(document).ready(function() {
 
     // get rid of the constructor from global namespace and put in local 'Constructors' namespace
     // (like if you were using CommonJS and don't want to pollute global namespace)
-    var previous_constructor_root = _.PARSE_JSON_CONSTRUCTOR_ROOT;
-    root.Constructors || (root.Constructors = {}); _.PARSE_JSON_CONSTRUCTOR_ROOT = root.Constructors;
+    root.Constructors || (root.Constructors = {}); _.PARSE_JSON_CONSTRUCTOR_ROOTS.unshift(root.Constructors);
     root.Constructors.couch_class = CouchClass;
     delete root['couch_class'];
 
@@ -1097,6 +1096,6 @@ $(document).ready(function() {
 
     // cleanup
     _.PARSE_JSON_TYPE_FIELD = previous_json_field;
-    _.PARSE_JSON_CONSTRUCTOR_ROOT = previous_constructor_root;
+    _.PARSE_JSON_CONSTRUCTOR_ROOTS.shift();
   });
 });

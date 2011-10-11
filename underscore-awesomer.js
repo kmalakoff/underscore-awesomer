@@ -647,9 +647,9 @@
   //* `properties` - used to disambigate between owning a collection's items and cloning a collection.
   // <br/>**Global settings:**<br/>
   //* `_.PARSE_JSON_TYPE_FIELD` - the field key in the serialized JSON that is used for constructor lookup.<br/>
-  //* `_.PARSE_JSON_CONSTRUCTOR_ROOT` - the root that is used to find the constructor. Useful for reducing global namespace pollution<br/>
+  //* `_.PARSE_JSON_CONSTRUCTOR_ROOTS` - the array of roots that are used to find the constructor. Useful for reducing global namespace pollution<br/>
   _.PARSE_JSON_TYPE_FIELD = '_type';
-  _.PARSE_JSON_CONSTRUCTOR_ROOT = null;
+  _.PARSE_JSON_CONSTRUCTOR_ROOTS = [root];
   _.parseJSON = function(obj, options) {
     var obj_type = typeof(obj);
 
@@ -683,14 +683,12 @@
 
     // Find and use the parseJSON function
     var type = obj[type_field];
+    var current_root;
 
     // Try root.type Global namespace
-    parseJSON_owner = _.keypathValueOwner(root, type+'.parseJSON');
-    if (parseJSON_owner) return parseJSON_owner.parseJSON(obj);
-
-    // Try custom namespace if provided
-    if (_.PARSE_JSON_CONSTRUCTOR_ROOT) {
-      parseJSON_owner = _.keypathValueOwner(_.PARSE_JSON_CONSTRUCTOR_ROOT, type+'.parseJSON');     // try root.Constructors.type
+    for (var i=0, l=_.PARSE_JSON_CONSTRUCTOR_ROOTS.length; i<l;i++) {
+      current_root = _.PARSE_JSON_CONSTRUCTOR_ROOTS[i];
+      parseJSON_owner = _.keypathValueOwner(current_root, type+'.parseJSON');
       if (parseJSON_owner) return parseJSON_owner.parseJSON(obj);
     }
 
