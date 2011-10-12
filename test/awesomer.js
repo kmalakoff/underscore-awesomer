@@ -406,10 +406,10 @@ $(document).ready(function() {
     ok(!result, 'follow.me.down.the.road as array not set');
   });
 
-  test("objects: cloneToDepth", function() {
+  test("objects: clone", function() {
     var moe = {name : 'moe', lucky : [13, 27, 34]};
     // depth 0 - should behave exactly like clone
-    var clone = _.cloneToDepth(moe);
+    var clone = _.clone(moe);
     equals(clone.name, 'moe', 'the clone as the attributes of the original');
 
     clone.name = 'curly';
@@ -419,7 +419,7 @@ $(document).ready(function() {
     equals(_.last(moe.lucky), 101, 'changes to deep attributes are shared with the original');
 
     // depth 1
-    clone = _.cloneToDepth(moe, 1);
+    clone = _.clone(moe, 1);
 
     clone.name = 'curly';
     ok(clone.name == 'curly' && moe.name == 'moe', 'clones can change shallow attributes without affecting the original');
