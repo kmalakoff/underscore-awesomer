@@ -407,9 +407,16 @@ $(document).ready(function() {
   });
 
   test("objects: clone", function() {
-    var moe = {name : 'moe', lucky : [13, 27, 34]};
+    var clone, moe = {name : 'moe', lucky : [13, 27, 34]};
+
+    // clone of a non-object
+    clone = _.clone(1);
+    equals(clone, 1, '1 is cloned');
+    clone = _.clone('hello');
+    equals(clone, 'hello', 'hello is cloned');
+
     // depth 0 - should behave exactly like clone
-    var clone = _.clone(moe);
+    clone = _.clone(moe);
     equals(clone.name, 'moe', 'the clone as the attributes of the original');
 
     clone.name = 'curly';
@@ -426,6 +433,23 @@ $(document).ready(function() {
 
     clone.lucky.push(102);
     ok(_.last(moe.lucky)!=102, 'changes to deep attributes are not shared with the original');
+
+    Clonable = (function() {
+      function Clonable(value) {this.value = value;}
+      Clonable.prototype.clone = function() { return new Clonable(this.value+1); };
+      return Clonable;
+    })();
+
+    var original = new Clonable(1);
+    clone = _.clone(original);
+    ok(clone instanceof Clonable, 'clone is a clone by class');
+    equal(clone.value, 2, 'clone has a side effect. Whoops!');
+
+    var now = new Date();
+    clone = _.clone(now);
+    ok(clone instanceof Date, 'clone is a clone by class');
+    ok((now.getFullYear()==clone.getFullYear()) && (now.getMonth()==clone.getMonth()) && (now.getDate()==clone.getDate()), 'clone is a clone by date components');
+    ok((now.getHours()==clone.getHours()) && (now.getMinutes()==clone.getMinutes()) && (now.getSeconds()==clone.getSeconds()) && (now.getMilliseconds()==clone.getMilliseconds()), 'clone is a clone by time components');
   });
 
   test("objects: functionExists", function() {
