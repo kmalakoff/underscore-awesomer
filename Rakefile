@@ -11,21 +11,31 @@ def minimize_with_header(source_filename, destination_filename)
   end
 end
 
+# Check for the existence of an executable.
+def check(exec, name, url)
+  return unless `which #{exec}`.empty?
+  puts "#{name} not found.\nInstall it from #{url}"
+  exit
+end
+
 desc "Use the Closure Compiler to compress Underscore-Awesomer.js"
 task :build do
   minimize_with_header('underscore-awesomer.js', 'underscore-awesomer-min.js')
 end
 
-desc "build and generate documentation"
+desc "check, build and generate documentation"
 task :package do
   begin
+    system "jsl -nofilelisting -nologo -conf docs/jsl.conf -process underscore-awesomer.js"
     minimize_with_header('underscore-awesomer.js', 'underscore-awesomer-min.js')
+    check 'docco', 'docco', 'https://github.com/jashkenas/docco'
     sh "docco underscore-awesomer.js"
   end
 end
 
 desc "Build the docco documentation"
 task :doc do
+  check 'docco', 'docco', 'https://github.com/jashkenas/docco'
   sh "docco underscore-awesomer.js"
 end
 

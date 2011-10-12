@@ -341,13 +341,14 @@
   };
 
   // Create a duplicate of an object to any zero-indexed depth.
-  _.cloneToDepth = function(obj, depth) {
-    if (typeof obj !== 'object') return obj;
-    if (_.isUndefined(depth)) depth = 0;
-    if (depth < 1) return _.clone(obj);
-    clone = _.clone(obj);
-    for (var key in clone) {
-      clone[key] = _.cloneToDepth(clone[key], depth-1);
+  _.cloneToDepth = _.clone = function(obj, depth) {
+    var clone = _.isArray(obj) ? obj.slice() : _.extend({}, obj);
+    if (!_.isUndefined(depth) && (depth > 0)) {
+      var value;
+      for (var key in clone) {
+        value = clone[key];
+        clone[key] = (typeof value === 'object') ? _.clone(value, depth-1) : value;
+      }
     }
     return clone;
   };
@@ -719,6 +720,7 @@
     keypathValueOwner: _.keypathValueOwner,
     keypath: _.keypath,
     cloneToDepth: _.cloneToDepth,
+    clone: _.clone,
 
     isConstructor: _.isConstructor,
     resolveConstructor: _.resolveConstructor,
