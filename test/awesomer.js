@@ -409,12 +409,6 @@ $(document).ready(function() {
   test("objects: clone", function() {
     var clone, moe = {name : 'moe', lucky : [13, 27, 34]};
 
-    // clone of a non-object
-    clone = _.clone(1);
-    equals(clone, 1, '1 is cloned');
-    clone = _.clone('hello');
-    equals(clone, 'hello', 'hello is cloned');
-
     // depth 0 - should behave exactly like clone
     clone = _.clone(moe);
     equals(clone.name, 'moe', 'the clone as the attributes of the original');
@@ -434,22 +428,124 @@ $(document).ready(function() {
     clone.lucky.push(102);
     ok(_.last(moe.lucky)!=102, 'changes to deep attributes are not shared with the original');
 
+    // clone of a non-object
+    var original = void 0;
+    clone = _.clone(original);
+    ok(_.isUndefined(clone), 'undefined is cloned');
+    original = null;
+    ok(_.isUndefined(clone), 'undefined was cloned by value');
+
+    clone = _.clone(original);
+    ok(clone===null, 'null is cloned');
+    original = 1;
+    ok(clone===null, 'null was cloned by value');
+
+    clone = _.clone(original);
+    equals(clone, 1, '1 is cloned');
+    original = 'hello';
+    equals(clone, 1, '1 was cloned by value');
+
+    clone = _.clone(original);
+    ok(original === clone, 'hello was cloned by reference');
+    equals(clone, 'hello', 'hello is cloned');
+
+    original = new String('jello');
+    clone = _.clone(original);
+    ok(original === clone, 'String was cloned by reference');
+    ok(clone == 'jello', 'jello is cloned');
+
+    original = new Date();
+    clone = _.clone(original);
+    ok(original === clone, 'Date was cloned by reference');
+    ok(clone.valueOf()===original.valueOf(), 'Date is cloned');
+
     Clonable = (function() {
       function Clonable(value) {this.value = value;}
-      Clonable.prototype.clone = function() { return new Clonable(this.value+1); };
+      Clonable.prototype.clone = function() { return new Clonable(_.clone(this.value, 0)); };
       return Clonable;
     })();
 
-    var original = new Clonable(1);
+    original = new Clonable(1);
     clone = _.clone(original);
-    ok(clone instanceof Clonable, 'clone is a clone by class');
-    equal(clone.value, 2, 'clone has a side effect. Whoops!');
+    ok(original === clone, 'Clonable was cloned by reference');
+    ok(original.value === clone.value, 'Clonable.value was cloned by value');
 
-    var now = new Date();
-    clone = _.clone(now);
-    ok(clone instanceof Date, 'clone is a clone by class');
-    ok((now.getFullYear()==clone.getFullYear()) && (now.getMonth()==clone.getMonth()) && (now.getDate()==clone.getDate()), 'clone is a clone by date components');
-    ok((now.getHours()==clone.getHours()) && (now.getMinutes()==clone.getMinutes()) && (now.getSeconds()==clone.getSeconds()) && (now.getMilliseconds()==clone.getMilliseconds()), 'clone is a clone by time components');
+    original = new Clonable(new String('Hello'));
+    clone = _.clone(original);
+    ok(original === clone, 'Clonable was cloned by reference');
+    ok(original.value === clone.value, 'Clonable.value was cloned by reference');
+  });
+
+  test("objects: deepClone", function() {
+    var clone, moe = {name : 'moe', lucky : [13, 27, 34]};
+
+    // depth 0 - should behave exactly like clone
+    clone = _.deepClone(moe);
+    equals(clone.name, 'moe', 'the clone as the attributes of the original');
+
+    clone.name = 'curly';
+    ok(clone.name == 'curly' && moe.name == 'moe', 'clones can change shallow attributes without affecting the original');
+
+    clone.lucky.push(101);
+    equals(_.last(moe.lucky), 101, 'changes to deep attributes are shared with the original');
+
+    // depth 1
+    clone = _.deepClone(moe, 1);
+
+    clone.name = 'curly';
+    ok(clone.name == 'curly' && moe.name == 'moe', 'clones can change shallow attributes without affecting the original');
+
+    clone.lucky.push(102);
+    ok(_.last(moe.lucky)!=102, 'changes to deep attributes are not shared with the original');
+
+    // clone of a non-object
+    var original = void 0;
+    clone = _.deepClone(original);
+    ok(_.isUndefined(clone), 'undefined is cloned');
+    original = null;
+    ok(_.isUndefined(clone), 'undefined was cloned by value');
+
+    clone = _.deepClone(original);
+    ok(clone===null, 'null is cloned');
+    original = 1;
+    ok(clone===null, 'null was cloned by value');
+
+    clone = _.deepClone(original);
+    equals(clone, 1, '1 is cloned');
+    original = 'hello';
+    equals(clone, 1, '1 was cloned by value');
+
+    clone = _.deepClone(original);
+    ok(original === clone, 'hello was cloned by reference');
+    equals(clone, 'hello', 'hello is cloned');
+
+    original = new String('jello');
+    clone = _.deepClone(original);
+    ok(original !== clone, 'String was cloned by reference');
+    ok(clone == 'jello', 'jello is cloned');
+
+    original = new Date();
+    clone = _.deepClone(original);
+    ok(original !== clone, 'Date was cloned by reference');
+    ok(clone.valueOf()===original.valueOf(), 'Date is cloned');
+
+    Clonable = (function() {
+      function Clonable(value) {this.value = value;}
+      Clonable.prototype.clone = function() { return new Clonable(_.deepClone(this.value, 0)); };
+      return Clonable;
+    })();
+
+    original = new Clonable(1);
+    clone = _.deepClone(original);
+    ok(original !== clone, 'Clonable was cloned by custom method');
+    ok(original.value == clone.value, 'Clonable.value was cloned by value');
+    ok(original.value === clone.value, 'Clonable.value was cloned by value');
+
+    original = new Clonable(new String('Hello'));
+    clone = _.deepClone(original);
+    ok(original !== clone, 'Clonable was cloned by custom method');
+    ok(original.value == clone.value, 'Clonable.value is equal');
+    ok(original.value !== clone.value, 'Clonable.value was copied');
   });
 
   test("objects: functionExists", function() {

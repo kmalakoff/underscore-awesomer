@@ -340,16 +340,34 @@
     }
   };
 
-  // Create a duplicate of an object to any zero-indexed depth.
-  _.cloneToDepth = _.clone = function(obj, depth) {
-    if (typeof obj !== 'object') return obj;
-    if (_.isString(obj)) return obj.splice();
-    if (_.isDate(obj)) return new Date(obj.getTime());
-    if (_.isFunction(obj.clone)) return obj.clone();
-    var clone = _.isArray(obj) ? obj.slice() : _.extend({}, obj);
+  // Create a duplicate of a container of objects to any zero-indexed depth.
+  _.cloneToDepth = _.containerClone = _.clone = function(obj, depth) {
+    if (!obj || (typeof obj !== 'object')) return obj;  // by value
+    var clone;
+    if (_.isArray(obj)) clone = Array.prototype.slice.call(obj);
+    else if (obj.constructor!=={}.constructor) return obj; // by reference
+    else clone = _.extend({}, obj);
     if (!_.isUndefined(depth) && (depth > 0)) {
       for (var key in clone) {
         clone[key] = _.clone(clone[key], depth-1);
+      }
+    }
+    return clone;
+  };
+
+  // Create a duplicate of all objects to any zero-indexed depth.
+  _.deepClone = function(obj, depth) {
+    if (!obj || (typeof obj !== 'object')) return obj;  // by value
+    else if (_.isString(obj)) return String.prototype.slice.call(obj);
+    else if (_.isDate(obj)) return new Date(obj.valueOf());
+    else if (_.isFunction(obj.clone)) return obj.clone();
+    var clone;
+    if (_.isArray(obj)) clone = Array.prototype.slice.call(obj);
+    else if (obj.constructor!=={}.constructor) return obj; // by reference
+    else clone = _.extend({}, obj);
+    if (!_.isUndefined(depth) && (depth > 0)) {
+      for (var key in clone) {
+        clone[key] = _.deepClone(clone[key], depth-1);
       }
     }
     return clone;
