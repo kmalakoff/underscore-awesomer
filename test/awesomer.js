@@ -68,6 +68,8 @@ $(document).ready(function() {
 
     ok(_.isEqual(date_json, date), 'serialized date matches date');
     ok(_.isEqual(date, date_json), 'date matches serialized date');
+
+    equal(_.isEqual({length: 0, other: 'thing'}, []), false, 'an object with length is not an empty array');
   });
 
   // Collection Functions
@@ -936,8 +938,8 @@ $(document).ready(function() {
     ok(original_retained!==original, 'rr: different object');
     ok(RetainRelease.instance_count==3, 'rr: 3 instances');
     ok(original[0].retain_count==2, 'rr: 2 retains');
-    _.disown(original, {clear_values:false});
-    ok(original.length===0, 'rr: 0 values');
+    _.disown(original, {clear_values:false, remove_values:true});
+    equal(original.length, 0, 'rr: 0 values');
     ok(RetainRelease.instance_count==3, 'rr: 3 instances');
     ok(original_retained[0].retain_count==1, 'rr: 1 retain');
     _.disown(original_retained);
@@ -954,7 +956,7 @@ $(document).ready(function() {
     ok(original_again===original, 'rr: different object');
     ok(RetainRelease.instance_count==3, 'rr: 3 instances');
     copy = _.clone(original_again);
-    _.disown(original, {properties:true, clear_values:false})
+    _.disown(original, {properties:true, clear_values:false, remove_values:true})
     ok(_.size(original)==0, 'rr: 0 key/values');
     ok(RetainRelease.instance_count==3, 'rr: 3 instances');
     _.disown(copy, {properties:true});
