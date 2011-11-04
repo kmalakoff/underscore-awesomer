@@ -46,14 +46,14 @@ var removed = _.remove([2,4,2], 2); _.isEqual(removed, 2);
 var removed = _.remove({bob: 1, fred: 3, george: 5}, [‘bob’, ‘george’]); _.isEqual(removed, [1,5]);
 ````
 
-## JSON serialization (_.toJSON, _.parseJSON)
+## JSON serialization (_.toJSON, _.fromJSON)
 Provides a convention for serializing and deserializing class instances (with a configurable _type property).
 
 ### Examples:
 
 ````
-var plain_old_json = _.toJSON(some_instance), some_instance_copy = _.parseJSON(plain_old_json);
-var namespaced_instance = _.parseJSON({_type: ‘SomeNamepace.SomeClass’, prop1: 1, prop2: 2});
+var plain_old_json = _.toJSON(some_instance), some_instance_copy = _.fromJSON(plain_old_json);
+var namespaced_instance = _.fromJSON({_type: ‘SomeNamepace.SomeClass’, prop1: 1, prop2: 2});
 ````
 
 ## Object Lifecycle (_.own, _.disown)

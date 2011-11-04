@@ -1035,7 +1035,7 @@ $(document).ready(function() {
     return _.isEqual(this_date_components, that_date_components);
   };
 
-  Date.parseJSON = function(json) {
+  Date.fromJSON = function(json) {
     if (json._type!='Date') return null;
     return new Date(Date.UTC(json.year, json.month, json.day, json.hours, json.minutes, json.seconds));
   };
@@ -1055,9 +1055,9 @@ $(document).ready(function() {
         date_value:this.date_value
       };
     };
-    SomeClass.parseJSON = function(json) {
+    SomeClass.fromJSON = function(json) {
       if (json._type!='SomeNamespace.SomeClass') return null;
-      return new SomeClass(json.int_value, json.string_value, Date.parseJSON(json.date_value));
+      return new SomeClass(json.int_value, json.string_value, Date.fromJSON(json.date_value));
     };
     return SomeClass;
   })();
@@ -1067,7 +1067,7 @@ $(document).ready(function() {
     CouchClass.prototype.toJSON = function() {
       return { type:'couch_class', key:this.key, value:this.value };
     };
-    CouchClass.parseJSON = function(json) {
+    CouchClass.fromJSON = function(json) {
       if (json.type!='couch_class') return null;
       return new CouchClass(json.key, json.value);
     };
@@ -1127,7 +1127,7 @@ $(document).ready(function() {
     ok(!result.hasOwnProperty('date_value'), 'date_value excluded');
   });
 
-  test("extensions: parseJSON", function() {
+  test("extensions: fromJSON", function() {
     var int_value = 123456, string_value = 'Hello', date_value = new Date(), result;
     var object = {
       _type:'SomeNamespace.SomeClass',
@@ -1144,11 +1144,11 @@ $(document).ready(function() {
       }
     };
 
-    var result = _.parseJSON(object.date_value);
+    var result = _.fromJSON(object.date_value);
     ok(result instanceof Date, 'Date deserialized');
     ok(result.isEqual(date_value), 'date matches');
 
-    result = _.parseJSON(object);
+    result = _.fromJSON(object);
     ok(result instanceof SomeNamespace.SomeClass, 'deserialized is SomeNamespace.SomeClass');
     ok(result.int_value===int_value, 'int_value deserialized');
     ok(result.string_value===string_value, 'string_value deserialized');
@@ -1156,7 +1156,7 @@ $(document).ready(function() {
     ok(result.date_value.isEqual(date_value), 'date matches');
 
     var array = [object, object, object];
-    result = _.parseJSON(array);
+    result = _.fromJSON(array);
     ok(result.length===3, 'serialized array length');
     ok(result[0] instanceof SomeNamespace.SomeClass, 'serialized object 1 correct type');
     ok(result[0].date_value instanceof Date, 'serialized object date 1 correct type');
@@ -1194,30 +1194,30 @@ $(document).ready(function() {
         seconds:date_value.getUTCSeconds()
       },
     };
-    result = _.parseJSON(embedded_objects, {properties: true});
+    result = _.fromJSON(embedded_objects, {properties: true});
     ok(_.size(result)===3, 'serialized property count');
     ok(result.date_value1 instanceof Date, 'serialized object date 1 correct type');
     ok(result.date_value2 instanceof Date, 'serialized object date 2 correct type');
     ok(result.date_value3 instanceof Date, 'serialized object date 3 correct type');
 
     root.couch_class = CouchClass;  // register the constructor on root
-    var previous_json_field = _.PARSE_JSON_TYPE_FIELD;
-    _.PARSE_JSON_TYPE_FIELD = 'type';
+    var previous_json_field = _.FROM_JSON_TYPE_FIELD;
+    _.FROM_JSON_TYPE_FIELD = 'type';
     var couch_class_instance_json = { type:'couch_class', key: 42, value: 'meaning'};
-    var couch_class_instance = _.parseJSON(couch_class_instance_json);
+    var couch_class_instance = _.fromJSON(couch_class_instance_json);
     ok(couch_class_instance instanceof CouchClass, 'deserialized with type instead of _type identifier');
 
     // get rid of the constructor from global namespace and put in local 'Constructors' namespace
     // (like if you were using CommonJS and don't want to pollute global namespace)
-    root.Constructors || (root.Constructors = {}); _.PARSE_JSON_CONSTRUCTOR_ROOTS.unshift(root.Constructors);
+    root.Constructors || (root.Constructors = {}); _.FROM_JSON_CONSTRUCTOR_ROOTS.unshift(root.Constructors);
     root.Constructors.couch_class = CouchClass;
     delete root['couch_class'];
 
-    couch_class_instance = _.parseJSON(couch_class_instance_json);
+    couch_class_instance = _.fromJSON(couch_class_instance_json);
     ok(couch_class_instance instanceof CouchClass, 'deserialized with type instead of _type identifier using root.Constructors instead of global namespace');
 
     // cleanup
-    _.PARSE_JSON_TYPE_FIELD = previous_json_field;
-    _.PARSE_JSON_CONSTRUCTOR_ROOTS.shift();
+    _.FROM_JSON_TYPE_FIELD = previous_json_field;
+    _.FROM_JSON_CONSTRUCTOR_ROOTS.shift();
   });
 });
