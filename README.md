@@ -56,6 +56,10 @@ var plain_old_json = _.toJSON(some_instance), some_instance_copy = _.fromJSON(pl
 var namespaced_instance = _.fromJSON({_type: ‘SomeNamepace.SomeClass’, prop1: 1, prop2: 2});
 ````
 
+or you can play with it live on [jsfiddle][1]
+
+[1]: http://jsfiddle.net/kmalakoff/VkNaa/
+
 ## Object Lifecycle (_.own, _.disown)
 Handles individual objects, arrays, and object properties that comply with some lifecycle conventions:
 
