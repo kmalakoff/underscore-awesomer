@@ -47,30 +47,12 @@ var removed = _.remove({bob: 1, fred: 3, george: 5}, [‘bob’, ‘george’]);
 ````
 
 ## JSON serialization (_.toJSON, _.fromJSON)
-Provides a convention for serializing and deserializing class instances (with a configurable _type property).
 
-### Examples:
-
-````
-var plain_old_json = _.toJSON(some_instance), some_instance_copy = _.fromJSON(plain_old_json);
-var namespaced_instance = _.fromJSON({_type: ‘SomeNamepace.SomeClass’, prop1: 1, prop2: 2});
-````
+**Note**: this functionality has been renamed to JSON.serialize and JSON.deserialize and been moved to: https://github.com/kmalakoff/json-serialize
 
 ## Object Lifecycle (_.own, _.disown)
-Handles individual objects, arrays, and object properties that comply with some lifecycle conventions:
 
-* clone() and destroy()
-* retain() and release()
-* clone() and Javascript memory management
-* plain old JSON
-
-### Examples:
-
-````
-var an_object = new Object(); var owned_copy_object = _.own(an_object); _.disown(an_object);
-var an_array = [new Object(), ‘hello’, new Object()]; var owned_copy_array = _.own(an_array); _.disown(an_array);
-var an_object = {one: new Object(), two: new Object(), three: ‘there’}; var owned_copy_object = _.own(an_object, {properties:true}); _.disown(an_object);
-````
+**Note**: this functionality has been renamed to LC.own and LC.disown and been move to: https://github.com/kmalakoff/lifecycle
 
 ## Compare for the rest of us (_.compare)
 Wraps built in compare with self-evident return types (_.COMPARE_EQUAL, _.COMPARE_ASCENDING, _.COMPARE_DESCENDING) and allows objects to provide custom compare methods.

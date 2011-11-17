@@ -8,5 +8,5 @@
   "dependencies"  : ["underscore.js"],
   "repository"    : {"type": "git", "url": "git://github.com/kmalakoff/underscore-awesomer.git"},
   "main"          : "underscore-awesomer.js",
-  "version"       : "1.1.0"
+  "version"       : "1.2.0"
 }
