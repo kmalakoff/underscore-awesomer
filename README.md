@@ -50,6 +50,10 @@ var removed = _.remove({bob: 1, fred: 3, george: 5}, [‘bob’, ‘george’]);
 
 **Note**: this functionality has been renamed to JSON.serialize and JSON.deserialize and been moved to: https://github.com/kmalakoff/json-serialize
 
+or you can play with it live on [jsfiddle][1]
+
+[1]: http://jsfiddle.net/kmalakoff/VkNaa/
+
 ## Object Lifecycle (_.own, _.disown)
 
 **Note**: this functionality has been renamed to LC.own and LC.disown and been move to: https://github.com/kmalakoff/lifecycle
