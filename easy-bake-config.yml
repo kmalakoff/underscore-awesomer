@@ -18,4 +18,4 @@ tests:
 postinstall:
   copy_latest_underscore:
     command: 'cp'
-    args: ['node_modules/underscore/underscore.js', 'vendor/underscore-latest.js']
+    args: ['underscore', 'vendor/underscore-latest.js']
