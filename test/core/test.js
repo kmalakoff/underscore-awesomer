@@ -1,7 +1,29 @@
 var root = this;
 
+var __extends = function(child, parent) {
+  for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
+  function ctor() { this.constructor = child; }
+  ctor.prototype = parent.prototype;
+  child.prototype = new ctor;
+  child.__super__ = parent.prototype;
+  return child;
+};
+
+//////////////////////////////
+// Start Tests
+//////////////////////////////
 $(document).ready(function() {
   module("Awesome Underscore extensions");
+
+  // import Underscore and Underscore.Awesomer
+  var _ = !window._ && (typeof require !== 'undefined') ? require('underscore')._ : window._;
+  if (!_.AWESOMER) {
+    _.mixin(require('underscore-awesomer'));
+  }
+
+  test("TEST DEPENDENCY MISSING", function() {
+    ok(!!_); ok(!!_.AWESOMENESS);
+  });
 
   // Modifications to Underscore
   // --------------------
@@ -578,15 +600,6 @@ $(document).ready(function() {
     result = _.callIfExists(some_instance, 'dontCallMe');
     ok(!result, 'silently ignored');
   });
-
-  var __extends = function(child, parent) {
-    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
-    function ctor() { this.constructor = child; }
-    ctor.prototype = parent.prototype;
-    child.prototype = new ctor;
-    child.__super__ = parent.prototype;
-    return child;
-  };
 
   test("objects: getSuperFunction", function() {
     Superclass = (function() {

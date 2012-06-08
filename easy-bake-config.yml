@@ -1,0 +1,21 @@
+library:
+  join: underscore-awesomer.js
+  compress: true
+  directories: [src]
+
+tests:
+  output: ./build
+  directories:
+    - test/core
+    - test/packaging
+  options:
+    test:
+      command: phantomjs
+      runner: phantomjs-qunit-runner.js
+    build:
+      no_files_ok: ['test/core', 'test/packaging']
+
+postinstall:
+  copy_latest_underscore:
+    command: 'cp'
+    args: ['node_modules/underscore/underscore.js', 'vendor/underscore-latest.js']

@@ -1,12 +1,28 @@
 {
+  "author"        : "Kevin Malakoff <https://github.com/kmalakoff>",
   "name"          : "underscore-awesomer",
   "description"   : "Awesome Extensions to Underscore.js",
-  "homepage"      : "https://github.com/kmalakoff/underscore-awesomer",
-  "keywords"      : ["util", "functional", "server", "client", "browser"],
-  "author"        : "Kevin Malakoff <xmann.intl@gmail.com>",
-  "contributors"  : [],
-  "dependencies"  : ["underscore.js"],
-  "repository"    : {"type": "git", "url": "git://github.com/kmalakoff/underscore-awesomer.git"},
+  "keywords"      : ["underscore-awesomer", "underscore-awesomerjs", "underscore", "underscorejs"],
+
+  "url"           : "http://kmalakoff.github.com/underscore-awesomer/",
+  "homepage"      : "http://kmalakoff.github.com/underscore-awesomer/",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/kmalakoff/underscore-awesomer.git"
+  },
+
+  "scripts": {
+    "postinstall": "node_modules/.bin/cake postinstall",
+    "test": "node_modules/.bin/cake -c -b test"
+  },
+  "dependencies" : {
+    "underscore": "latest"
+  },
+  "devDependencies": {
+    "coffee-script": "latest",
+    "easy-bake": "0.1.2"
+  },
+
   "main"          : "underscore-awesomer.js",
-  "version"       : "1.2.0"
+  "version"       : "1.2.1"
 }

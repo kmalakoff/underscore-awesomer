@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Underscore-Awesomer.js Test Suite - Packaging</title>
+  <link rel="stylesheet" href="../vendor/qunit/qunit.css" type="text/css" media="screen" />
+  <script type="text/javascript" src="../vendor/qunit/jquery.js"></script>
+  <script type="text/javascript" src="../vendor/qunit/qunit.js"></script>
+  <script type="text/javascript" src="../vendor/qunit/jslitmus.js"></script>
+
+  <script type="text/javascript" src="../../vendor/underscore-latest.js"></script>
+
+  <script type="text/javascript">
+    window.mock_requires = {};
+    window.mock_requires['underscore'] = {_: window._}; delete window['_'];
+    window.require = function(path) { return window.mock_requires[path]; };
+    window.exports = {};
+  </script>
+  <script type="text/javascript" src="../../underscore-awesomer.js"></script>
+  <script type="text/javascript">
+    window.mock_requires['underscore-awesomer'] = window['exports']; delete window['exports']; delete window['_']
+  </script>
+
+  <script type="text/javascript" src="../core/test.js"></script>
+</head>
+<body>
+  <div>
+    <h1 id="qunit-header">Underscore-Awesomer.js Test Suite - Packaging</h1>
+    <h2 id="qunit-banner"></h2>
+    <h2 id="qunit-userAgent"></h2>
+    <ol id="qunit-tests"></ol>
+    <br />
+  </div>
+</body>
+</html>

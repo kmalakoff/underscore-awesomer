@@ -48,7 +48,7 @@ var removed = _.remove({bob: 1, fred: 3, george: 5}, [‘bob’, ‘george’]);
 
 ## JSON serialization (_.toJSON, _.fromJSON)
 
-**Note**: this functionality has been renamed to JSON.serialize and JSON.deserialize and been moved to: https://github.com/kmalakoff/json-serialize
+**Note**: this functionality has been renamed to JSONS.serialize and JSONS and been moved to: https://github.com/kmalakoff/json-serialize
 
 or you can play with it live on [jsfiddle][1]
 
@@ -77,3 +77,25 @@ local_backbone_collection_mixin { _add: function(model) { if (!model.id) model.i
 ````
 
 ## And more: _.cloneToDepth, _pluck with remove, _.findIndex, _.functionExists/_.callIfExists, and _.getValue with default if missing, and _.className.
+
+# Release Notes
+
+###1.2.1
+
+- converted back to CoffeeScript
+
+- build using easy-bake
+
+- added packaging tests
+
+Building, Running and Testing the library
+-----------------------
+
+###Installing:
+
+1. install node.js: http://nodejs.org
+2. install node packages: 'npm install'
+
+###Commands:
+
+Look at: https://github.com/kmalakoff/easy-bake
