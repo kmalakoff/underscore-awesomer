@@ -17,7 +17,7 @@ $(document).ready(function() {
 
   // import Underscore and Underscore.Awesomer
   var _ = !window._ && (typeof require !== 'undefined') ? require('underscore')._ : window._;
-  if (!_.AWESOMER) {
+  if (!_.AWESOMENESS) {
     _.mixin(require('underscore-awesomer'));
   }
 
