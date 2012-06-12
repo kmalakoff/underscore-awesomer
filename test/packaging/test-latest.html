@@ -7,18 +7,7 @@
   <script type="text/javascript" src="../vendor/qunit/qunit.js"></script>
   <script type="text/javascript" src="../vendor/qunit/jslitmus.js"></script>
 
-  <script type="text/javascript" src="../../vendor/underscore-latest.js"></script>
-
-  <script type="text/javascript">
-    window.mock_requires = {};
-    window.mock_requires['underscore'] = {_: window._}; delete window['_'];
-    window.require = function(path) { return window.mock_requires[path]; };
-    window.exports = {};
-  </script>
-  <script type="text/javascript" src="../../underscore-awesomer.js"></script>
-  <script type="text/javascript">
-    window.mock_requires['underscore-awesomer'] = window['exports']; delete window['exports']; delete window['_']
-  </script>
+  <script type="text/javascript" src="build/bundle-latest.js"></script>
 
   <script type="text/javascript" src="../core/test.js"></script>
 </head>

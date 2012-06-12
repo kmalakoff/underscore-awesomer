@@ -18,7 +18,7 @@
 (function() {
   var root, _;
 
-  root = this;
+  root = typeof window === 'undefined' ? global : window;
 
   _ = !this._ && (typeof require !== 'undefined') ? require('underscore')._ : this._;
 

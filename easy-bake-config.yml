@@ -9,16 +9,22 @@ tests:
   directories:
     - test/core
     - test/packaging
-  options:
+  modes:
+    build:
+      bundles:
+        test/packaging/build/bundle-latest.js:
+          underscore: underscore
+          underscore-awesomer: underscore-awesomer.js
+        test/packaging/build/bundle-legacy.js:
+          underscore: vendor/underscore-1.2.1.js
+          underscore-awesomer: underscore-awesomer.js
+      no_files_ok: ['test/packaging']
     test:
       command: phantomjs
       runner: phantomjs-qunit-runner.js
       files:
         - '**/*.html'
-    build:
-      no_files_ok: ['test/core', 'test/packaging']
 
 postinstall:
-  copy_latest_underscore:
-    command: 'cp'
-    args: ['underscore', 'vendor/underscore-latest.js']
+  commands:
+    - 'cp underscore vendor/underscore-latest.js'
