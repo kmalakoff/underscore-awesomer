@@ -11,7 +11,7 @@
     https:#github.com/documentcloud/underscore
     https:#github.com/documentcloud/underscore/blob/master/LICENSE
 ###
-root = if typeof(window) == 'undefined' then global else window
+root = @
 
 # import Underscore
 _ = if not @_ and (typeof(require) != 'undefined') then require('underscore')._ else @_
