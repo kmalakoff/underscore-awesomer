@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/kmalakoff/underscore-awesomer.png)](http://travis-ci.org/kmalakoff/underscore-awesomer)
+
 ````
 Underscore-Awesomer* provides some (ahem) awesome extensions to the Underscore utility-belt library for JavaScript.
 ````
