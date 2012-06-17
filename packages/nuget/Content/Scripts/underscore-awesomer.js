@@ -21,7 +21,7 @@
   root = this;
 
   if (typeof require !== 'undefined') {
-    _ = !!require.resolve('underscore') ? require('underscore')._ : require('lodash');
+    _ = !!require.resolve('lodash') ? require('lodash') : require('underscore')._;
   } else {
     _ = this._;
   }

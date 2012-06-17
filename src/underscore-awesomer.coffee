@@ -15,7 +15,7 @@ root = @
 
 # import Underscore
 if (typeof(require) != 'undefined')
-  _ = if !!require.resolve('underscore') then require('underscore')._ else require('lodash')
+  _ = if !!require.resolve('lodash') then require('lodash') else require('underscore')._ # use lodash if it exists
 else
   _ = @_
 
