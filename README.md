@@ -115,8 +115,8 @@ Building, Running and Testing the library
 Look at: https://github.com/kmalakoff/easy-bake
 
 
-[1]: http://cloud.github.com/downloads/kmalakoff/knockback-inspector/knockback-inspector-1.2.2.js
-[2]: http://cloud.github.com/downloads/kmalakoff/knockback-inspector/knockback-inspector-1.2.2.min.js
+[1]: http://cloud.github.com/downloads/kmalakoff/underscore-awesomer/underscore-awesomer-1.2.2.js
+[2]: http://cloud.github.com/downloads/kmalakoff/underscore-awesomer/underscore-awesomer-1.2.2.min.js
 [3]: http://documentcloud.github.com/underscore/
 [4]: http://lodash.com/
 [5]: http://jsfiddle.net/kmalakoff/VkNaa/
