@@ -115,8 +115,8 @@ Building, Running and Testing the library
 Look at: https://github.com/kmalakoff/easy-bake
 
 
-[1]: https://raw.github.com/kmalakoff/underscore-awesomer/0.2.2/underscore-awesomer.js
-[2]: https://raw.github.com/kmalakoff/underscore-awesomer/0.2.2/underscore-awesomer.min.js
+[1]: https://raw.github.com/kmalakoff/underscore-awesomer/1.2.2/underscore-awesomer.js
+[2]: https://raw.github.com/kmalakoff/underscore-awesomer/1.2.2/underscore-awesomer.min.js
 [3]: http://documentcloud.github.com/underscore/
 [4]: http://lodash.com/
 [5]: http://jsfiddle.net/kmalakoff/VkNaa/
