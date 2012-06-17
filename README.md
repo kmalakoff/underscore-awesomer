@@ -2,10 +2,27 @@
 Underscore-Awesomer* provides some (ahem) awesome extensions to the Underscore utility-belt library for JavaScript.
 ````
 
-See below for all the awesome stuff you can do and check out my blog for
-the latest examples: http://braincode.tumblr.com/
+See below for all the awesome stuff you can do and check out my blog for the latest examples: http://braincode.tumblr.com/
 
 Enjoy!
+
+You can get the library here:
+
+* [Development version][1]
+* [Production version][2]
+
+### Dependencies
+
+* [Underscore.js][3]
+
+OR
+
+* [Lo-Dash][4]
+
+[1]: http://cloud.github.com/downloads/kmalakoff/knockback-inspector/knockback-inspector-1.2.2.js
+[2]: http://cloud.github.com/downloads/kmalakoff/knockback-inspector/knockback-inspector-1.2.2.min.js
+[3]: http://documentcloud.github.com/underscore/
+[4]: http://lodash.com/
 
 
 For Docs, License, Tests, and pre-packed downloads of Underscore, see: http://documentcloud.github.com/underscore/
@@ -80,7 +97,7 @@ local_backbone_collection_mixin { _add: function(model) { if (!model.id) model.i
 
 # Release Notes
 
-###1.2.1
+###1.2.2
 
 - converted back to CoffeeScript
 

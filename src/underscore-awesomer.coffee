@@ -1,5 +1,5 @@
 ###
-  Underscore-Awesomer.js 1.2.1
+  Underscore-Awesomer.js 1.2.2
   (c) 2011, 2012 Kevin Malakoff.
   Underscore-Awesomer is freely distributable under the MIT license.
   https:#github.com/kmalakoff/underscore-awesomer
@@ -14,11 +14,13 @@
 root = @
 
 # import Underscore
-_ = if not @_ and (typeof(require) != 'undefined') then require('underscore')._ else @_
-_ = {} unless _ # no underscore
+if (typeof(require) != 'undefined')
+  _ = if !!require.resolve('underscore') then require('underscore')._ else require('lodash')
+else
+  _ = @_
 
 root.exports = _ if (typeof(root.exports) != 'undefined') # export Underscore namespace
-_.AWESOMENESS = "1.2.1"
+_.AWESOMENESS = "1.2.2"
 
 # Modifications to Underscore
 # --------------------

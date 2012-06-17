@@ -16,6 +16,7 @@ module.exports =
     output: 'build'
     directories: [
       'test/core'
+      'test/lodash'
       'test/packaging'
     ]
     modes:
@@ -27,6 +28,9 @@ module.exports =
           'test/packaging/build/bundle-legacy.js':
             underscore: 'vendor/underscore-1.2.1.js'
             'underscore-awesomer': 'underscore-awesomer.js'
+          'test/packaging/build/bundle-lodash-latest.js':
+            lodash: 'vendor/lodash-latest.js'
+            'underscore-awesomer': 'underscore-awesomer.js'
         no_files_ok: 'test/packaging'
       test:
         command: 'phantomjs'
@@ -34,4 +38,7 @@ module.exports =
         files: '**/*.html'
 
   postinstall:
-    commands: 'cp underscore vendor/underscore-latest.js'
+    commands: [
+      'cp underscore vendor/underscore-latest.js'
+      'cp lodash vendor/lodash-latest.js'
+    ]
