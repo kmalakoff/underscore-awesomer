@@ -14,11 +14,8 @@
 root = @
 
 # import Lo-Dash or Underscore (if Lo-Dash is present, it takes precidence)
-if (typeof(require) != 'undefined')
-  try _ = require('lodash') catch e then _ = require('underscore')
-else
-  _ = @_
-
+if (typeof(require) != 'undefined') then (try _ = require('lodash') catch e then _ = require('underscore')) else _ = @_
+_ = _._ if _ and (_.hasOwnProperty('_')) # LEGACY
 root.exports = _ if (typeof(root.exports) != 'undefined') # export Underscore namespace
 _.AWESOMENESS = "1.2.3"
 

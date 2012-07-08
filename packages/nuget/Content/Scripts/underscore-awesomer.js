@@ -30,6 +30,10 @@
     _ = this._;
   }
 
+  if (_ && (_.hasOwnProperty('_'))) {
+    _ = _._;
+  }
+
   if (typeof root.exports !== 'undefined') {
     root.exports = _;
   }
