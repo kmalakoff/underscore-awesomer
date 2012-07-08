@@ -100,7 +100,7 @@ local_backbone_collection_mixin { _add: function(model) { if (!model.id) model.i
 
 - added packaging tests
 
-###1.2.2
+###1.2.3
 
 - added lodash server-side support
 
@@ -117,8 +117,8 @@ Building, Running and Testing the library
 Look at: https://github.com/kmalakoff/easy-bake
 
 
-[1]: https://raw.github.com/kmalakoff/underscore-awesomer/1.2.2/underscore-awesomer.js
-[2]: https://raw.github.com/kmalakoff/underscore-awesomer/1.2.2/underscore-awesomer.min.js
+[1]: https://raw.github.com/kmalakoff/underscore-awesomer/1.2.3/underscore-awesomer.js
+[2]: https://raw.github.com/kmalakoff/underscore-awesomer/1.2.3/underscore-awesomer.min.js
 [3]: http://documentcloud.github.com/underscore/
 [4]: http://lodash.com/
 [5]: http://jsfiddle.net/kmalakoff/VkNaa/
