@@ -29,7 +29,7 @@ module.exports =
             underscore: 'vendor/underscore-1.2.1.js'
             'underscore-awesomer': 'underscore-awesomer.js'
           'test/packaging/build/bundle-lodash-latest.js':
-            lodash: 'vendor/lodash-latest.js'
+            lodash: 'vendor/lodash-0.3.2.js'
             'underscore-awesomer': 'underscore-awesomer.js'
         no_files_ok: 'test/packaging'
       test:
@@ -40,5 +40,4 @@ module.exports =
   postinstall:
     commands: [
       'cp underscore vendor/underscore-latest.js'
-      'cp lodash vendor/lodash-latest.js'
     ]
