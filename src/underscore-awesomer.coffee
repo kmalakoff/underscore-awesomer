@@ -13,7 +13,7 @@
 ###
 root = @
 
-# import Lo-Dash or Underscore (if Lo-Dash is present, it takes precidence)
+# import Underscore (or Lo-Dash with precedence)
 if (typeof(require) != 'undefined') then (try _ = require('lodash') catch e then _ = require('underscore')) else _ = @_
 _ = _._ if _ and (_.hasOwnProperty('_')) # LEGACY
 root.exports = _ if (typeof(root.exports) != 'undefined') # export Underscore namespace

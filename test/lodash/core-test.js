@@ -16,7 +16,7 @@ $(document).ready(function() {
   module("Awesome Underscore extensions");
 
   // import Underscore and Underscore.Awesomer
-  var _ = (typeof require !== 'undefined') ? require('lodash')._ : window._;
+  var _ = !window._ && (typeof require !== 'undefined') ? require('lodash')._ : window._;
   if (!_.AWESOMENESS) {
     _.mixin(require('underscore-awesomer'));
   }

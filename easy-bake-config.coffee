@@ -16,8 +16,8 @@ module.exports =
     output: 'build'
     directories: [
       'test/core'
-      'test/lodash'
       'test/packaging'
+      'test/lodash'
     ]
     modes:
       build:
@@ -28,10 +28,13 @@ module.exports =
           'test/packaging/build/bundle-legacy.js':
             underscore: 'vendor/underscore-1.2.1.js'
             'underscore-awesomer': 'underscore-awesomer.js'
-          'test/packaging/build/bundle-lodash-latest.js':
+          'test/lodash/build/bundle-lodash.js':
             lodash: 'vendor/lodash-0.3.2.js'
             'underscore-awesomer': 'underscore-awesomer.js'
-        no_files_ok: 'test/packaging'
+        no_files_ok: [
+          'test/packaging'
+          'test/lodash'
+        ]
       test:
         command: 'phantomjs'
         runner: 'phantomjs-qunit-runner.js'
