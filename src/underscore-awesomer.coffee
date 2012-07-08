@@ -15,10 +15,7 @@ root = @
 
 # import Lo-Dash or Underscore (if Lo-Dash is present, it takes precidence)
 if (typeof(require) != 'undefined')
-  try
-    _ = require('lodash')
-  catch e
-    _ = require('underscore')
+  try _ = require('lodash') catch e then _ = require('underscore')
 else
   _ = @_
 
