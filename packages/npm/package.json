@@ -1,7 +1,7 @@
 {
   "author"        : {"name": "Kevin Malakoff", "url": "https://github.com/kmalakoff"},
   "name"          : "underscore-awesomer",
-  "description"   : "Awesome Extensions to Underscore.js",
+  "description"   : "Awesome Extensions to Underscore.js (or Lo-Dash).",
   "keywords"      : ["underscore-awesomer", "underscore-awesomerjs", "underscore", "underscorejs"],
 
   "url"           : "http://kmalakoff.github.com/underscore-awesomer/",

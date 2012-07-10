@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <version>1.2.3</version>
+    <authors>Kevin Malakoff</authors>
+    <owners />
+    <licenseUrl>https://github.com/kmalakoff/underscore-awesomer/blob/master/LICENSE</licenseUrl>
+    <projectUrl>http://kmalakoff.github.com/underscore-awesomer/</projectUrl>
+    <dependencies>
+    </dependencies>
+    <id>underscore-awesomer</id>
+    <title>underscore-awesomer</title>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Awesome Extensions to Underscore.js (or Lo-Dash).</description>
+    <summary>Awesome Extensions to Underscore.js (or Lo-Dash).</summary>
+    <copyright>Copyright (c) 2011-2012 Kevin Malakoff</copyright>
+    <tags>underscore-awesomer underscore-awesomerjs underscore underscorejs lodash</tags>
+  </metadata>
+  <files>
+    <file src="content/Scripts/underscore-awesomer.js" target="content/Scripts/underscore-awesomer.js" />
+    <file src="content/Scripts/underscore-awesomer.min.js" target="content/Scripts/underscore-awesomer.min.js" />
+  </files>
+</package>
