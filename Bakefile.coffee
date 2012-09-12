@@ -7,6 +7,7 @@ module.exports =
       commands: [
         'cp underscore-awesomer.js packages/npm/underscore-awesomer.js'
         'cp underscore-awesomer.min.js packages/npm/underscore-awesomer.min.js'
+        'cp README.md packages/npm/README.md'
         'cp underscore-awesomer.js packages/nuget/Content/Scripts/underscore-awesomer.js'
         'cp underscore-awesomer.min.js packages/nuget/Content/Scripts/underscore-awesomer.min.js'
       ]
