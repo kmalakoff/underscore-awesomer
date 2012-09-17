@@ -8,18 +8,27 @@ See below for all the awesome stuff you can do and check out my blog for the lat
 
 Enjoy!
 
-You can get the library here:
+#Download Latest (1.2.4):
 
-* [Development version][1]
-* [Production version][2]
+Please see the [release notes](https://github.com/kmalakoff/underscore-awesomer/blob/master/RELEASE_NOTES.md) for upgrade pointers.
+
+* [Development version](https://raw.github.com/kmalakoff/underscore-awesomer/1.2.4/underscore-awesomer.js)
+* [Production version](https://raw.github.com/kmalakoff/underscore-awesomer/1.2.4/underscore-awesomer.min.js)
+
+
+###Module Loading
+
+Underscore-Awesomer.js is compatible with RequireJS, CommonJS, Brunch and AMD module loading. Module names:
+
+* 'underscore-awesomer' - underscore-awesomer.js.
 
 ### Dependencies
 
-* [Underscore.js][3]
+* [Underscore.js](http://documentcloud.github.com/underscore/)
 
 OR
 
-* [Lo-Dash][4]
+* [Lo-Dash](http://lodash.com/)
 
 
 For Docs, License, Tests, and pre-packed downloads of Underscore, see: http://documentcloud.github.com/underscore/
@@ -64,7 +73,7 @@ var removed = _.remove({bob: 1, fred: 3, george: 5}, [‘bob’, ‘george’]);
 
 **Note**: this functionality has been renamed to JSONS.serialize and JSONS and been moved to: https://github.com/kmalakoff/json-serialize
 
-or you can play with it live on [jsfiddle][5]
+or you can play with it live on [jsfiddle](http://jsfiddle.net/kmalakoff/VkNaa/)
 
 ## Object Lifecycle (_.own, _.disown)
 
@@ -90,19 +99,6 @@ local_backbone_collection_mixin { _add: function(model) { if (!model.id) model.i
 
 ## And more: _.cloneToDepth, _pluck with remove, _.findIndex, _.functionExists/_.callIfExists, and _.getValue with default if missing, and _.className.
 
-# Release Notes
-
-###1.2.1
-
-- converted back to CoffeeScript
-
-- build using easy-bake
-
-- added packaging tests
-
-###1.2.4
-
-- added lodash server-side support
 
 Building, Running and Testing the library
 -----------------------
@@ -115,10 +111,3 @@ Building, Running and Testing the library
 ###Commands:
 
 Look at: https://github.com/kmalakoff/easy-bake
-
-
-[1]: https://raw.github.com/kmalakoff/underscore-awesomer/1.2.4/underscore-awesomer.js
-[2]: https://raw.github.com/kmalakoff/underscore-awesomer/1.2.4/underscore-awesomer.min.js
-[3]: http://documentcloud.github.com/underscore/
-[4]: http://lodash.com/
-[5]: http://jsfiddle.net/kmalakoff/VkNaa/
