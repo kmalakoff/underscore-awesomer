@@ -1,6 +1,7 @@
 module.exports =
   library:
     join: 'underscore-awesomer.js'
+    wrapper: 'src/module-loader.js'
     compress: true
     files: 'src/**/*.coffee'
     _build:
@@ -30,5 +31,5 @@ module.exports =
 
   _postinstall:
     commands: [
-      'cp underscore vendor/underscore-latest.js'
+      'cp -v underscore vendor/underscore.js'
     ]
