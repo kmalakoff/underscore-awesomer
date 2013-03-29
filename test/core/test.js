@@ -30,10 +30,10 @@ $(document).ready(function() {
 
   test('collections: pluck', function() {
     var people = [{name : 'moe', age : 30}, {name : 'curly', age : 50}];
-    equals(_.pluck(people, 'name').join(', '), 'moe, curly', 'pulls names out of objects');
+    equal(_.pluck(people, 'name').join(', '), 'moe, curly', 'pulls names out of objects');
     ok(_.isEqual(people, [{name : 'moe', age : 30}, {name : 'curly', age : 50}]), 'does not alter the original');
 
-    equals(_.pluck(people, 'name', true).join(', '), 'moe, curly', 'pulls names out of objects');
+    equal(_.pluck(people, 'name', true).join(', '), 'moe, curly', 'pulls names out of objects');
     ok(_.isEqual(people, [{age : 30}, {age : 50}]), 'removes the plucked values from the original');
   });
 
@@ -101,9 +101,9 @@ $(document).ready(function() {
     var person = {name : 'moe', age : 30}, result;
 
     result = _.getValue(person, 'name', 'curly');
-    equals(result, 'moe', 'gets the value when it exists');
+    equal(result, 'moe', 'gets the value when it exists');
     result = _.getValue(person, 'first_name', 'curly');
-    equals(result, 'curly', 'gets the default value when it does not exist');
+    equal(result, 'curly', 'gets the default value when it does not exist');
   });
 
   Person = (function() {
@@ -126,39 +126,39 @@ $(document).ready(function() {
   test('collections: sortBy', function() {
     var people = [{name : 'curly', age : 50}, {name : 'moe', age : 30}];
     people = _.sortBy(people, function(person){ return person.age; });
-    equals(_.pluck(people, 'name').join(', '), 'moe, curly', 'stooges sorted by age');
+    equal(_.pluck(people, 'name').join(', '), 'moe, curly', 'stooges sorted by age');
 
     people.push({name : 'larry', age : 30});
     people = _.sortBy(people, function(obj) {
       return new Person(obj.name, obj.age);
     });
-    equals(_.pluck(people, 'name').join(', '), 'larry, moe, curly', 'stooges sorted by age then name');
+    equal(_.pluck(people, 'name').join(', '), 'larry, moe, curly', 'stooges sorted by age then name');
   });
 
   test('collections: sortedIndex', function() {
     var numbers = [10, 20, 30, 40, 50], num = 35;
     var index = _.sortedIndex(numbers, num);
-    equals(index, 3, '35 should be inserted at index 3');
+    equal(index, 3, '35 should be inserted at index 3');
   });
 
   test('collections: compare', function() {
     var people = [new Person('curly',50), new Person('moe',30), new Person('larry', 30)];
-    equals(_.compare(people[0].name, people[0].name), _.COMPARE_EQUAL, 'curly is curly');
-    equals(_.compare(people[0].name, people[1].name), _.COMPARE_ASCENDING, 'curly is before moe');
-    equals(_.compare(people[1].name, people[0].name), _.COMPARE_DESCENDING, 'moe is after curly');
+    equal(_.compare(people[0].name, people[0].name), _.COMPARE_EQUAL, 'curly is curly');
+    equal(_.compare(people[0].name, people[1].name), _.COMPARE_ASCENDING, 'curly is before moe');
+    equal(_.compare(people[1].name, people[0].name), _.COMPARE_DESCENDING, 'moe is after curly');
 
-    equals(_.compare(people[0].age, people[0].age), _.COMPARE_EQUAL, 'curly is curly');
-    equals(_.compare(people[0].age, people[1].age), _.COMPARE_DESCENDING, 'curly is after moe');
-    equals(_.compare(people[1].age, people[0].age), _.COMPARE_ASCENDING, 'moe is before curly');
+    equal(_.compare(people[0].age, people[0].age), _.COMPARE_EQUAL, 'curly is curly');
+    equal(_.compare(people[0].age, people[1].age), _.COMPARE_DESCENDING, 'curly is after moe');
+    equal(_.compare(people[1].age, people[0].age), _.COMPARE_ASCENDING, 'moe is before curly');
 
-    equals(_.compare(people[0], people[0]), _.COMPARE_EQUAL, 'curly as old as curly');
-    equals(_.compare(people[0], people[1]), _.COMPARE_DESCENDING, 'curly is older than moe');
-    equals(_.compare(people[1], people[0]), _.COMPARE_ASCENDING, 'moe is younger than curly');
-    equals(_.compare(people[1], people[2]), _.COMPARE_DESCENDING, "moe is the same age as larry, but larry's name is before moe");
+    equal(_.compare(people[0], people[0]), _.COMPARE_EQUAL, 'curly as old as curly');
+    equal(_.compare(people[0], people[1]), _.COMPARE_DESCENDING, 'curly is older than moe');
+    equal(_.compare(people[1], people[0]), _.COMPARE_ASCENDING, 'moe is younger than curly');
+    equal(_.compare(people[1], people[2]), _.COMPARE_DESCENDING, "moe is the same age as larry, but larry's name is before moe");
 
-    equals(_.compare(people[0], people[0], 'compareByName'), _.COMPARE_EQUAL, 'curly is curly');
-    equals(_.compare(people[0], people[1], 'compareByName'), _.COMPARE_ASCENDING, 'curly before moe');
-    equals(_.compare(people[1], people[2], 'compareByName'), _.COMPARE_DESCENDING, 'moe is after larry');
+    equal(_.compare(people[0], people[0], 'compareByName'), _.COMPARE_EQUAL, 'curly is curly');
+    equal(_.compare(people[0], people[1], 'compareByName'), _.COMPARE_ASCENDING, 'curly before moe');
+    equal(_.compare(people[1], people[2], 'compareByName'), _.COMPARE_DESCENDING, 'moe is after larry');
   });
 
   test('collections: copyProperties', function() {
@@ -366,10 +366,10 @@ $(document).ready(function() {
     var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9], result;
 
     result = _.findIndex(numbers, function(number) {return number==5;});
-    equals(result, 4, 'finds the index using a function');
+    equal(result, 4, 'finds the index using a function');
 
     result = _.findIndex(numbers, function(number) {return number==10;});
-    equals(result, -1, 'does not find that which does not exist');
+    equal(result, -1, 'does not find that which does not exist');
   });
 
   // Object Functions
@@ -435,13 +435,13 @@ $(document).ready(function() {
 
     // depth 0 - should behave exactly like clone
     clone = _.clone(moe);
-    equals(clone.name, 'moe', 'the clone as the attributes of the original');
+    equal(clone.name, 'moe', 'the clone as the attributes of the original');
 
     clone.name = 'curly';
     ok(clone.name == 'curly' && moe.name == 'moe', 'clones can change shallow attributes without affecting the original');
 
     clone.lucky.push(101);
-    equals(_.last(moe.lucky), 101, 'changes to deep attributes are shared with the original');
+    equal(_.last(moe.lucky), 101, 'changes to deep attributes are shared with the original');
 
     // depth 1
     clone = _.clone(moe, 1);
@@ -465,13 +465,13 @@ $(document).ready(function() {
     ok(clone===null, 'null was cloned by value');
 
     clone = _.clone(original);
-    equals(clone, 1, '1 is cloned');
+    equal(clone, 1, '1 is cloned');
     original = 'hello';
-    equals(clone, 1, '1 was cloned by value');
+    equal(clone, 1, '1 was cloned by value');
 
     clone = _.clone(original);
     ok(original === clone, 'hello was cloned by reference');
-    equals(clone, 'hello', 'hello is cloned');
+    equal(clone, 'hello', 'hello is cloned');
 
     original = new String('jello');
     clone = _.clone(original);
@@ -505,13 +505,13 @@ $(document).ready(function() {
 
     // depth 0 - should behave exactly like clone
     clone = _.deepClone(moe);
-    equals(clone.name, 'moe', 'the clone as the attributes of the original');
+    equal(clone.name, 'moe', 'the clone as the attributes of the original');
 
     clone.name = 'curly';
     ok(clone.name == 'curly' && moe.name == 'moe', 'clones can change shallow attributes without affecting the original');
 
     clone.lucky.push(101);
-    equals(_.last(moe.lucky), 101, 'changes to deep attributes are shared with the original');
+    equal(_.last(moe.lucky), 101, 'changes to deep attributes are shared with the original');
 
     // depth 1
     clone = _.deepClone(moe, 1);
@@ -535,13 +535,13 @@ $(document).ready(function() {
     ok(clone===null, 'null was cloned by value');
 
     clone = _.deepClone(original);
-    equals(clone, 1, '1 is cloned');
+    equal(clone, 1, '1 is cloned');
     original = 'hello';
-    equals(clone, 1, '1 was cloned by value');
+    equal(clone, 1, '1 was cloned by value');
 
     clone = _.deepClone(original);
     ok(original === clone, 'hello was cloned by reference');
-    equals(clone, 'hello', 'hello is cloned');
+    equal(clone, 'hello', 'hello is cloned');
 
     original = new String('jello');
     clone = _.deepClone(original);
