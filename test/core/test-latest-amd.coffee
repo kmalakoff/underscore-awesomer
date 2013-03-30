@@ -13,4 +13,4 @@ try
   # library and dependencies
   require ['underscore', 'underscore-awesomer', 'qunit_test_runner'], (_, __, runner) ->
     window._ = null # force each test to require dependencies synchronously
-    require ['./test'], -> runner.start()
+    runner.start(); require ['./test'], ->
