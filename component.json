@@ -1,0 +1,13 @@
+{
+  "name": "underscore-awesomer",
+  "version": "1.2.4",
+  "main": "underscore-awesomer.js",
+  "ignore": [
+    "**/.*",
+    "components",
+    "node_modules",
+    "packages",
+    "test",
+    "vendor"
+  ]
+}
