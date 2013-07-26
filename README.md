@@ -50,7 +50,7 @@ _.keypathValueOwner({hello: {world: ‘!’} }, ‘hello.world’); // returns h
 ````
 
 ## Type Conversions (_.resolveConstructor, _.toType)
-_.toType introduces a convention of _.to{SomeType} and complies with underscore’s _.is{SomeType} convention if the constructor name or instanceof don’t find a match. Useful it you wrap a class inside another.
+_.toType introduces a convention of _.to{SomeType} and complies with underscore’s _.is{SomeType} convention if the constructor name or instanceof don’t find a match. Useful if you wrap a class inside another.
 
 ### Examples:
 
